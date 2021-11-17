@@ -1,5 +1,5 @@
 # SML_LFC_Project
-Code for implementations of the SML-Project on "Learning from Crowds"
+Code for implementations of the SML-Project on "Learning from Crowds" on the paper by Raykar et al.
 
 run data_screening.r first to simulate fresh annotations
 
