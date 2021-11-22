@@ -6,3 +6,5 @@ run data_screening.r first to simulate fresh annotations
 running raykar_binary_classification.r fits the model using EM-algorithm and displays estimates/predictions/misclassifications at the end
 
 running logistic_regression_binary_classification.r fits simple logistic regression models on majority + ground truth and displays predictions/misclassifications at the end
+
+running performance.r will run a pipeline that fits raykar and simple majority vote logistic model and evaluates performance using ROC-plot
