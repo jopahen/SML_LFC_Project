@@ -13,17 +13,18 @@ colnames(data) <- c("ID", "Clump Thickness", "Uniformity of Cell Size",
 data$Diagnosis <- data$Diagnosis / 2 - 1 #normalize diagnosis label (0 = benign, 1 = malignant)
 data <- data[!(data$`Bare Nuclei` == "?"),] #drop patients with missing observations
 data$`Bare Nuclei` <- as.numeric(data$`Bare Nuclei`) #make all entries numeric
+
 N <- length(data$Diagnosis)
 
 ##simulate 3 imperfect annotators
-alpha <- c(0.9, 0.85, 0.8) #specificity
-beta <- c(0.95, 0.9, 0.85) #sensitivity
+alpha <- c(0.99, 0.9, 0.75) #specificity Annotated.csv
+beta <- c(0.95, 0.85, 0.60) #sensitivity Annotated.csv
 
 Diagnosis1 <- numeric(length = N)
 Diagnosis2 <- numeric(length = N)
 Diagnosis3 <- numeric(length = N)
 
-for(i in 1:length(data$Diagnosis)){
+for(i in 1:N){
   if(data$Diagnosis[i] == 1){
     Diagnosis1[i] <- rbinom(1,1,alpha[1])
     Diagnosis2[i] <- rbinom(1,1,alpha[2])
@@ -41,4 +42,4 @@ data$Diagnosis2 <- Diagnosis2
 data$Diagnosis3 <- Diagnosis3
 
 #create CSV file with simulated annotations
-write.csv(data, "Datasets/BreastCancerWisconsinAnnotated.csv")
+write.csv(data, "Datasets/BreastCancerWisconsinAnnotated03.csv")
