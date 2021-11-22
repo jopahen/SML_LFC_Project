@@ -5,7 +5,7 @@ R <- 3
 options(warn = -1)
 #prepare data for ground truth logistic regression, fit logistic regression and display predictions
 data_ground_truth <- data[,-c(1, 12, 13, 14)]
-model_ground_truth <- glm(Diagnosis ~ ., family = binomial, data = data_ground_truth)
+model_ground_truth <- glm(Diagnosis ~ . - 1, family = binomial, data = data_ground_truth)
 as.numeric(model_ground_truth$fitted.values > 0.5)
 
 #prepare data for majority vote logistic regression, fit logistic regression and display predictions
