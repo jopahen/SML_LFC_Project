@@ -17,8 +17,8 @@ data$`Bare Nuclei` <- as.numeric(data$`Bare Nuclei`) #make all entries numeric
 N <- length(data$Diagnosis)
 
 ##simulate 3 imperfect annotators
-alpha <- c(0.99, 0.9, 0.75) #sensitivity Annotated.csv
-beta <- c(0.95, 0.85, 0.60) #specificity Annotated.csv
+alpha <- c(0.99, 0.9, 0.75) #sensitivity
+beta <- c(0.95, 0.85, 0.60) #specificity
 
 Diagnosis1 <- numeric(length = N)
 Diagnosis2 <- numeric(length = N)
