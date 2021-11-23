@@ -7,13 +7,13 @@ classifier <- function(fitted_vals, thresh = 0.5){
 }
 
 #functions to calculate specificities/sensitivities
-specificity <- function(classified_vals, ground_truth){
+sensitivity <- function(classified_vals, ground_truth){
   den <- length(ground_truth[ground_truth == 1])
   num <- length(classified_vals[(classified_vals == 1) & (ground_truth == 1)])
   return(num/den)
 }
 
-sensitivity <- function(classified_vals, ground_truth){
+specificity <- function(classified_vals, ground_truth){
   den <- length(ground_truth[ground_truth == 0])
   num <- length(classified_vals[(classified_vals == 0) & (ground_truth == 0)])
   return(num/den)
