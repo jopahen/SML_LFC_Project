@@ -1,7 +1,8 @@
-#load data, we work with R = 3 simulated erroneous annotators, 90/10 train/test split
+set.seed(10)
+#load data, we work with R = 3 simulated erroneous annotators, 80/20 train/test split
 #data = training data, data_test = testing data
 data <- read.csv("Datasets/BreastCancerWisconsinAnnotated03.csv")[,-1]
-inds <- sample(1:length(data$Diagnosis), size = floor(0.9 * length(data$Diagnosis)),
+inds <- sample(1:length(data$Diagnosis), size = floor(0.8 * length(data$Diagnosis)),
                replace = FALSE)
 data_test <- data[-inds,]
 data <- data[inds,]

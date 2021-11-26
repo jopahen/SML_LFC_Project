@@ -6,6 +6,7 @@ source("raykar_binary_classification_functions.r")
 #perform logistic regressions to get initial weights
 source("logistic_regression_binary_classification.r")
 print("Logistic Regressions fitted! Fitted models in model_ground_truth and model_majority.")
+print("======================")
 
 #load data, we work with R = 3 simulated erroneous annotators
 data <- read.csv("Datasets/BreastCancerWisconsinAnnotated03.csv")[,-1]
@@ -59,6 +60,7 @@ while(sqrt(sum((theta_new - theta)^2)) > tol & iter <= max_iter){
 }
 print("Raykar-fitting complete! Estimates in raykar_out.")
 raykar_out <- list(alpha = alpha_new, beta = beta_new, w = w_new, mu = mu_new)
+print("======================")
 #print(out)
 
 #eyeball misclassification error
