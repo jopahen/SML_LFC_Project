@@ -102,7 +102,7 @@ for(i in 1:length(t)){
   sensi[i] <- sensitivity(classifier(sigmoid(Z %*% raykar_out$w + logits + c), thresh = t[i]), ground_truth_test)
   speci[i] <- specificity(classifier(sigmoid(Z %*% raykar_out$w + logits + c), thresh = t[i]), ground_truth_test)
 }
-points(1-speci, sensi, col = 'blue', pch = 4)
+points(1-speci, sensi, col = 'blue', pch = 20)
 lines(1-speci, sensi, col = 'blue', lty = 3)
 AUCs[3] <- auc(1-speci, sensi)
 pos <- c(sensitivity(classifier(sigmoid(Z %*% raykar_out$w + logits + c)), ground_truth_test), 1-sensitivity(classifier(sigmoid(Z %*% raykar_out$w + logits + c)), ground_truth_test)) * sum(ground_truth_test == 1)
