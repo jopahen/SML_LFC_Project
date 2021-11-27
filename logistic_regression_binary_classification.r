@@ -16,7 +16,7 @@ as.numeric(model_ground_truth$fitted.values > 0.5)
 
 #prepare data for majority vote logistic regression, fit logistic regression and display predictions
 Ann <- as.matrix(t(cbind(data$Diagnosis1,data$Diagnosis2,data$Diagnosis3)))
-Diagnosis_majority <- colSums(Ann) / R
+Diagnosis_majority <- as.numeric(colSums(Ann) / R > 0.5)
 data_majority <- data[,-c(1, 11, 12, 13, 14)]
 data_majority$DiagnosisMajority <- Diagnosis_majority
 model_majority <- glm(DiagnosisMajority ~ . - 1, family = binomial, data = data_majority)
