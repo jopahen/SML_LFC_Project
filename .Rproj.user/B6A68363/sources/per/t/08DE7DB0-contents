@@ -17,8 +17,8 @@ data$`Bare Nuclei` <- as.numeric(data$`Bare Nuclei`) #make all entries numeric
 N <- length(data$Diagnosis)
 
 ##simulate 3 imperfect annotators
-alpha <- c(0.99, 0.9, 0.75) #sensitivity
-beta <- c(0.95, 0.85, 0.60) #specificity
+alpha <- c(0.99, 0.7, 0.6) #sensitivity
+beta <- c(0.95, 0.7, 0.65) #specificity
 
 Diagnosis1 <- numeric(length = N)
 Diagnosis2 <- numeric(length = N)
@@ -42,4 +42,4 @@ data$Diagnosis2 <- Diagnosis2
 data$Diagnosis3 <- Diagnosis3
 
 #create CSV file with simulated annotations
-write.csv(data, "Datasets/BreastCancerWisconsinAnnotated03.csv")
+write.csv(data, "Datasets/BreastCancerWisconsinAnnotated04.csv")
