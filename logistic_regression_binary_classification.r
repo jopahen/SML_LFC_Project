@@ -26,6 +26,3 @@ w_init_log <- as.vector(model_majority$coefficients)
 colnames(w_init_log) <- NULL
 
 options(warn = 0)
-#eyeball misclassification error
-sum(data$Diagnosis != as.numeric(model_ground_truth$fitted.values > 0.5))
-sum(data$Diagnosis != as.numeric(model_majority$fitted.values > 0.5))

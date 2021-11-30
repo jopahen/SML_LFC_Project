@@ -62,7 +62,3 @@ print("Raykar-fitting complete! Estimates in raykar_out.")
 raykar_out <- list(alpha = alpha_new, beta = beta_new, w = w_new, mu = mu_new,
                    fits = sigmoid(X %*% w))
 print("======================")
-#print(out)
-
-#eyeball misclassification error
-sum(data$Diagnosis != as.numeric(raykar_out$pred_ground_truth > 0.5))
