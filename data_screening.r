@@ -42,4 +42,4 @@ data$Diagnosis2 <- Diagnosis2
 data$Diagnosis3 <- Diagnosis3
 
 #create CSV file with simulated annotations
-write.csv(data, "Datasets/BreastCancerWisconsinAnnotated04.csv")
+write.csv(data, "Datasets/BreastCancerWisconsinAnnotated05.csv")

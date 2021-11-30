@@ -23,10 +23,10 @@ specificity <- function(classified_vals, ground_truth){
 
 ground_truth <- data_ground_truth$Diagnosis
 ground_truth_test <- data_test$Diagnosis
-AUCs <- numeric(4) #raykar-train, logistic-train, raykar-test, logistic-test
+AUCs <- numeric(6) #raykar ground_truth, majority ground_truth, raykar_classifier-train, majority_classifier-train, raykar_classifier-test, majority_classifier-test
 print("Performance Statistics:")
 
-#create ROC-curves for Raykar model + get AUC + plot on training data + confusion matrix
+#create ROC-curves for Raykar model ground truth estimation on training data + get AUC + plot + confusion matrix
 par(pty = "s")
 t <- seq(0,1,0.02)
 sensi <- numeric(length(t))
@@ -36,18 +36,56 @@ for(i in 1:length(t)){
     speci[i] <- specificity(classifier(raykar_out$mu, thresh = t[i]), ground_truth)
 }
 plot(1-speci, sensi, pch = 20, col = 'blue', asp = 1,
-     main = "ROC curve for Raykar (blue) & Logistic regression with majority voting (red) on training data",
+     main = "ROC curve for ground truth estimation on training data: \n Raykar (blue) & majority voting (red)",
      xlab = "FPR = 1 - Specificity", ylab = "Sensitivity")
 lines(1-speci, sensi, col = 'blue', lty = 3)
 AUCs[1] <- auc(1-speci, sensi)
 pos <- c(sensitivity(classifier(raykar_out$mu), ground_truth), 1-sensitivity(classifier(raykar_out$mu), ground_truth)) * sum(ground_truth == 1)
 neg <- c(1-specificity(classifier(raykar_out$mu), ground_truth), specificity(classifier(raykar_out$mu), ground_truth)) * sum(ground_truth == 0)
 cmat <- matrix(c(pos,neg), 2)
-print("Confusion Matrix Rayar (train):")
+print("Confusion Matrix Rayar (ground truth):")
 print(cmat)
 
+#create ROC-curves for majority ground truth est. on training data + get AUC + plot on training data + confusion matrix
+t <- seq(0,1,0.02)
+sensi <- numeric(length(t))
+speci <- numeric(length(t))
+for(i in 1:length(t)){
+  sensi[i] <- sensitivity(classifier(Diagnosis_majority_probs, thresh = t[i]), ground_truth)
+  speci[i] <- specificity(classifier(Diagnosis_majority_probs, thresh = t[i]), ground_truth)
+}
+sensi <- c(1,sensi)
+speci <- c(0,speci)
+points(1-speci, sensi, col = 'red', pch = 4)
+lines(1-speci, sensi, col = 'red', lty = 3)
+AUCs[2] <- auc(1-speci, sensi)
+pos <- c(sensitivity(classifier(Diagnosis_majority_probs), ground_truth), 1-sensitivity(classifier(model_majority$fitted.values), ground_truth)) * sum(ground_truth == 1)
+neg <- c(1-specificity(classifier(Diagnosis_majority_probs), ground_truth), specificity(classifier(model_majority$fitted.values), ground_truth)) * sum(ground_truth == 0)
+cmat <- matrix(c(pos,neg), 2)
+print("Confusion Matrix Majority (ground truth):")
+print(cmat)
 
-#create ROC-curves for Logistic model + get AUC + plot on training data + confusion matrix
+#create ROC-curves for Raykar classifier on training data + get AUC + plot + confusion matrix
+par(pty = "s")
+t <- seq(0,1,0.02)
+sensi <- numeric(length(t))
+speci <- numeric(length(t))
+for(i in 1:length(t)){
+  sensi[i] <- sensitivity(classifier(raykar_out$fits, thresh = t[i]), ground_truth)
+  speci[i] <- specificity(classifier(raykar_out$fits, thresh = t[i]), ground_truth)
+}
+plot(1-speci, sensi, pch = 20, col = 'blue', asp = 1,
+     main = "ROC curve for diagnosis estimation on training data \n Raykar (blue) & majority voting (red)",
+     xlab = "FPR = 1 - Specificity", ylab = "Sensitivity")
+lines(1-speci, sensi, col = 'blue', lty = 3)
+AUCs[3] <- auc(1-speci, sensi)
+pos <- c(sensitivity(classifier(raykar_out$fits), ground_truth), 1-sensitivity(classifier(raykar_out$mu), ground_truth)) * sum(ground_truth == 1)
+neg <- c(1-specificity(classifier(raykar_out$fits), ground_truth), specificity(classifier(raykar_out$mu), ground_truth)) * sum(ground_truth == 0)
+cmat <- matrix(c(pos,neg), 2)
+print("Confusion Matrix Rayar (classifier):")
+print(cmat)
+
+#create ROC-curves for Logistic classifier on training data + get AUC + plot + confusion matrix
 t <- seq(0,1,0.02)
 sensi <- numeric(length(t))
 speci <- numeric(length(t))
@@ -57,11 +95,11 @@ for(i in 1:length(t)){
 }
 points(1-speci, sensi, col = 'red', pch = 4)
 lines(1-speci, sensi, col = 'red', lty = 3)
-AUCs[2] <- auc(1-speci, sensi)
+AUCs[4] <- auc(1-speci, sensi)
 pos <- c(sensitivity(classifier(model_majority$fitted.values), ground_truth), 1-sensitivity(classifier(model_majority$fitted.values), ground_truth)) * sum(ground_truth == 1)
 neg <- c(1-specificity(classifier(model_majority$fitted.values), ground_truth), specificity(classifier(model_majority$fitted.values), ground_truth)) * sum(ground_truth == 0)
 cmat <- matrix(c(pos,neg), 2)
-print("Confusion Matrix Logistic (train):")
+print("Confusion Matrix Majority (classifier):")
 print(cmat)
 
 #create ROC-curves for Logistic model + get AUC + plot on training data + confusion matrix
@@ -81,14 +119,14 @@ for(i in 1:length(t)){
   speci[i] <- specificity(classifier(test_fitted, thresh = t[i]), ground_truth_test)
 }
 par(pty = "s")
-plot(1-speci, sensi, col = 'red', pch = 4, asp = 1, main = "ROC curve for Raykar (blue) & Logistic regression with majority voting (red) on test data",
+plot(1-speci, sensi, col = 'red', pch = 4, asp = 1, main = "ROC curve for Raykar classifier (blue) & \n Majority classifier (red) on test data",
      xlab = "FPR = 1 - Specificity", ylab = "Sensitivity")
 lines(1-speci, sensi, col = 'red', lty = 3)
-AUCs[4] <- auc(1-speci, sensi)
+AUCs[6] <- auc(1-speci, sensi)
 pos <- c(sensitivity(classifier(test_fitted), ground_truth_test), 1-sensitivity(classifier(test_fitted), ground_truth_test)) * sum(ground_truth_test == 1)
 neg <- c(1-specificity(classifier(test_fitted), ground_truth_test), specificity(classifier(test_fitted), ground_truth_test)) * sum(ground_truth_test == 0)
 cmat <- matrix(c(pos,neg), 2)
-print("Confusion Matrix Logistic (test):")
+print("Confusion Matrix Majority (classifier, test):")
 print(cmat)
 
 #create ROC-curves for Raykar model + get AUC + plot on training data + confusion matrix
@@ -105,16 +143,16 @@ for(i in 1:length(t)){
 }
 points(1-speci, sensi, col = 'blue', pch = 20)
 lines(1-speci, sensi, col = 'blue', lty = 3)
-AUCs[3] <- auc(1-speci, sensi)
+AUCs[5] <- auc(1-speci, sensi)
 pos <- c(sensitivity(classifier(sigmoid(logits)), ground_truth_test), 1-sensitivity(classifier(sigmoid(logits)), ground_truth_test)) * sum(ground_truth_test == 1)
 neg <- c(1-specificity(classifier(sigmoid(logits)), ground_truth_test), specificity(classifier(sigmoid(logits)), ground_truth_test)) * sum(ground_truth_test == 0)
 cmat <- matrix(c(pos,neg), 2)
-print("Confusion Matrix Raykar (test):")
+print("Confusion Matrix Raykar (classifier, test):")
 print(cmat)
 
 options(warn = 0)
 
-print("AUCs for Raykar (train), Logistic (train), Raykar (test), Logistic (test):")
+print("AUCs for Raykar estimate of ground truth on training data, Majority estimate of ground truth on training data, Raykar classifier (train), Majority classifier (train), Raykar classifier (test), Majority classifier (test):")
 print(AUCs)
 print("ROC-plots generated!")
 print("======================")

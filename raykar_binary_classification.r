@@ -9,7 +9,7 @@ print("Logistic Regressions fitted! Fitted models in model_ground_truth and mode
 print("======================")
 
 #load data, we work with R = 3 simulated erroneous annotators
-data <- read.csv("Datasets/BreastCancerWisconsinAnnotated04.csv")[,-1]
+data <- read.csv("Datasets/BreastCancerWisconsinAnnotated05.csv")[,-1]
 data <- data[inds,]
 N <- length(data$Diagnosis)
 R <- 3
@@ -59,7 +59,8 @@ while(sqrt(sum((theta_new - theta)^2)) > tol & iter <= max_iter){
   print(sqrt(sum((theta_new - theta)^2)))
 }
 print("Raykar-fitting complete! Estimates in raykar_out.")
-raykar_out <- list(alpha = alpha_new, beta = beta_new, w = w_new, mu = mu_new)
+raykar_out <- list(alpha = alpha_new, beta = beta_new, w = w_new, mu = mu_new,
+                   fits = sigmoid(X %*% w))
 print("======================")
 #print(out)
 
