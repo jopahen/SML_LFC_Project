@@ -150,6 +150,11 @@ cmat <- matrix(c(pos,neg), 2)
 print("Confusion Matrix Raykar (classifier, test):")
 print(cmat)
 
+#plot test-error decay during training
+plot(raykar_out$test_err, col = 'orange', pch = 20, xlab = "EM-iterations", ylab = "avg. misclas. error",
+     main = "Misclassification error decay \n (during training on test set)")
+lines(raykar_out$test_err, col = 'orange', lty = 3)
+
 options(warn = 0)
 
 print("AUCs for Raykar estimate of ground truth on training data, Majority estimate of ground truth on training data, Raykar classifier (train), Majority classifier (train), Raykar classifier (test), Majority classifier (test):")

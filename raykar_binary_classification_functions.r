@@ -5,6 +5,11 @@ sigmoid <- function(z){
   return(1 / (1 + exp(-z)))
 }
 
+#misclassification error
+misclas_err <- function(pred, label){
+  return(mean(abs(pred - label)))
+}
+
 #functions to calculate p, a, b as on page 1302
 p <- function(w, X){
   return(sigmoid(X %*% w))
