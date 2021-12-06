@@ -7,7 +7,7 @@ sigmoid <- function(z){
 
 #misclassification error
 misclas_err <- function(pred, label){
-  return(mean(abs(pred - label)))
+  return(mean(abs(pred - label)^2))
 }
 
 #functions to calculate p, a, b as on page 1302
