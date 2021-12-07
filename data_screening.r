@@ -42,4 +42,9 @@ data$Diagnosis2 <- Diagnosis2
 data$Diagnosis3 <- Diagnosis3
 
 #create CSV file with simulated annotations
-write.csv(data, "Datasets/BreastCancerWisconsinAnnotated06.csv")
+write.csv(data, "Datasets/BreastCancerWisconsinAnnotated07.csv")
+
+#create CSV file with normalized morphological features
+data[,-c(1,11,12,13,14)] <- scale.default(data[,-c(1,11,12,13,14)])
+
+write.csv(data, "Datasets/BreastCancerWisconsinAnnotated07normalized.csv")

@@ -9,7 +9,7 @@ print("Logistic Regressions fitted! Fitted models in model_ground_truth and mode
 print("======================")
 
 #load data, we work with R = 3 simulated erroneous annotators
-data <- read.csv("Datasets/BreastCancerWisconsinAnnotated03.csv")[,-1]
+data <- read.csv("Datasets/BreastCancerWisconsinAnnotated04.csv")[,-1]
 data_val <- data[-inds,]
 data <- data[inds,]
 N <- length(data$Diagnosis)
