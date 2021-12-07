@@ -9,7 +9,7 @@ print("Logistic Regressions fitted! Fitted models in model_ground_truth and mode
 print("======================")
 
 #load data, we work with R = 3 simulated erroneous annotators
-data <- read.csv("Datasets/BreastCancerWisconsinAnnotated04.csv")[,-1]
+data <- read.csv("Datasets/BreastCancerWisconsinAnnotated03.csv")[,-1]
 data_val <- data[-inds,]
 data <- data[inds,]
 N <- length(data$Diagnosis)
@@ -42,7 +42,7 @@ test_err <- misclas_err(as.numeric(sigmoid(X_val %*% w_new) > 0.5), data_val$Dia
 tol <- 10^-6
 max_iter <- 100
 iter <- 1
-validation_monitor <- FALSE
+validation_monitor <- TRUE
 
 #EM-algorithm loop
 print("Starting EM-algorithm to fit Raykar model...")

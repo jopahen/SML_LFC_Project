@@ -1,3 +1,4 @@
+set.seed(43)
 ##Breast Cancer Wisconsin Dataset
 # Dua, D. and Graff, C. (2019). UCI Machine Learning Repository
 # [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California,
@@ -17,8 +18,8 @@ data$`Bare Nuclei` <- as.numeric(data$`Bare Nuclei`) #make all entries numeric
 N <- length(data$Diagnosis)
 
 ##simulate 3 imperfect annotators
-alpha <- c(0.99, 0.7, 0.6) #sensitivity
-beta <- c(0.95, 0.7, 0.65) #specificity
+alpha <- c(0.8, 0.55, 0.55) #sensitivity
+beta <- c(0.75, 0.55, 0.55) #specificity
 
 Diagnosis1 <- numeric(length = N)
 Diagnosis2 <- numeric(length = N)
@@ -42,9 +43,9 @@ data$Diagnosis2 <- Diagnosis2
 data$Diagnosis3 <- Diagnosis3
 
 #create CSV file with simulated annotations
-write.csv(data, "Datasets/BreastCancerWisconsinAnnotated07.csv")
+write.csv(data, "Datasets/BreastCancerWisconsinAnnotated09.csv")
 
 #create CSV file with normalized morphological features
 data[,-c(1,11,12,13,14)] <- scale.default(data[,-c(1,11,12,13,14)])
 
-write.csv(data, "Datasets/BreastCancerWisconsinAnnotated07normalized.csv")
+write.csv(data, "Datasets/BreastCancerWisconsinAnnotated09normalized.csv")

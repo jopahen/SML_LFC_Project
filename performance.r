@@ -28,7 +28,7 @@ print("Performance Statistics:")
 
 #create ROC-curves for Raykar model ground truth estimation on training data + get AUC + plot + confusion matrix
 par(pty = "s")
-t <- seq(0,1,0.02)
+t <- seq(0,1,0.01)
 sensi <- numeric(length(t))
 speci <- numeric(length(t))
 for(i in 1:length(t)){
@@ -47,7 +47,7 @@ print("Confusion Matrix Rayar (ground truth):")
 print(cmat)
 
 #create ROC-curves for majority ground truth est. on training data + get AUC + plot on training data + confusion matrix
-t <- seq(0,1,0.02)
+t <- seq(0,1,0.01)
 sensi <- numeric(length(t))
 speci <- numeric(length(t))
 for(i in 1:length(t)){
@@ -67,7 +67,7 @@ print(cmat)
 
 #create ROC-curves for Raykar classifier on training data + get AUC + plot + confusion matrix
 par(pty = "s")
-t <- seq(0,1,0.02)
+t <- seq(0,1,0.01)
 sensi <- numeric(length(t))
 speci <- numeric(length(t))
 for(i in 1:length(t)){
@@ -86,7 +86,7 @@ print("Confusion Matrix Rayar (classifier):")
 print(cmat)
 
 #create ROC-curves for Logistic classifier on training data + get AUC + plot + confusion matrix
-t <- seq(0,1,0.02)
+t <- seq(0,1,0.01)
 sensi <- numeric(length(t))
 speci <- numeric(length(t))
 for(i in 1:length(t)){
@@ -111,7 +111,7 @@ Z <- as.matrix(data_test[,-10])
 test_fitted <- sigmoid(Z %*% model_majority$coefficients)
 
 
-t <- seq(0,1,0.02)
+t <- seq(0,1,0.01)
 sensi <- numeric(length(t))
 speci <- numeric(length(t))
 for(i in 1:length(t)){
@@ -130,7 +130,7 @@ print("Confusion Matrix Majority (classifier, test):")
 print(cmat)
 
 #create ROC-curves for Raykar model + get AUC + plot on training data + confusion matrix
-t <- seq(0,1,0.02)
+t <- seq(0,1,0.01)
 sensi <- numeric(length(t))
 speci <- numeric(length(t))
 c <- sum(log((1-raykar_out$alpha)/raykar_out$beta))
