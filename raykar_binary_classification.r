@@ -15,8 +15,8 @@ data <- data[inds,]
 N <- length(data$Diagnosis)
 R <- 3
 
-#initialize vector of misclassification error on test set
-#test_err <- c()
+#regularization (lambda >= 0, = 0 implies no regularization)
+lambda <- 0.5
 
 #get matrix of annotators (Ann) & predictors (X)
 Ann <- as.matrix(t(cbind(data$Diagnosis1,data$Diagnosis2,data$Diagnosis3)))
@@ -34,7 +34,7 @@ mu_new <- colSums(Ann) / R
 theta <- numeric(length = 15)
 alpha_new <- as.vector(Ann %*% mu_new / sum(mu_new))
 beta_new <- as.vector((1 - Ann) %*% (1 - mu_new) / sum(1 - mu_new))
-w_new <- NR_algorithm(w_init = numeric(length = length(X[1,])), mu_new, X, gradient, hessian)$root
+w_new <- NR_algorithm(w_init = numeric(length = length(X[1,])), mu_new, X, gradient, hessian, lambda)$root
 theta_new <- c(alpha_new, beta_new, w_new)
 test_err <- misclas_err(as.numeric(sigmoid(X_val %*% w_new) > 0.5), data_val$Diagnosis)
 
@@ -42,16 +42,11 @@ test_err <- misclas_err(as.numeric(sigmoid(X_val %*% w_new) > 0.5), data_val$Dia
 tol <- 10^-6
 max_iter <- 100
 iter <- 1
-validation_monitor <- TRUE
+validation_monitor <- FALSE
 
 #EM-algorithm loop
 print("Starting EM-algorithm to fit Raykar model...")
 print("Format: number of Newton-Raphson iterations, L2-distance of parameter vector, misclassification error on test set:")
-#mu_new <- as.vector(a(alpha, Ann) * p(w, X) / (a(alpha, Ann) * p(w, X) + b(beta, Ann) *  (1 - p(w, X))))
-#alpha_new <- as.vector(Ann %*% mu_new / sum(mu_new))
-#beta_new <- as.vector((1 - Ann) %*% (1 - mu_new) / sum(1 - mu_new))
-#w_new <- NR_algorithm(w_init = w, mu_new, X, gradient, hessian)$root
-#theta_new <- c(alpha_new, beta_new, w_new)
 
 while(sqrt(sum((theta_new - theta)^2)) > tol & iter <= max_iter){
   mu <- mu_new
@@ -62,7 +57,7 @@ while(sqrt(sum((theta_new - theta)^2)) > tol & iter <= max_iter){
   mu_new <- as.vector(a(alpha, Ann) * p(w, X) / (a(alpha, Ann) * p(w, X) + b(beta, Ann) *  (1 - p(w, X))))
   alpha_new <- as.vector(Ann %*% mu_new / sum(mu_new))
   beta_new <- as.vector((1 - Ann) %*% (1 - mu_new) / sum(1 - mu_new))
-  NR <- NR_algorithm(w_init = w, mu_new, X, gradient, hessian)
+  NR <- NR_algorithm(w_init = w, mu_new, X, gradient, hessian, lambda)
   w_new <- NR$root
   print(NR$iterations)
   theta_new <- c(alpha_new, beta_new, w_new)

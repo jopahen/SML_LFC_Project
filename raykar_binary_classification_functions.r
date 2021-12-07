@@ -30,35 +30,35 @@ b <- function(beta, Ann){
 }
 
 #gradient of objective (3) wrt w (page 1303)
-gradient <- function(w = seq(0,1,1/8), mu, X){
+gradient <- function(w = seq(0,1,1/8), mu, X, lambda = 0){
   grad <- as.vector(numeric(length = length(w)))
   for(i in 1:length(mu)){
     x_i <- as.vector(X[i,])
     grad = grad + as.numeric(mu[i] - sigmoid(x_i %*% w)) * x_i
   }
-  return(grad)
+  return(grad - length(w) * lambda * w)
 }
 
 #hessian of objective (3) wrt w (page 1303)
-hessian <- function(w = numeric(length = 9) + 1, X){
+hessian <- function(w = numeric(length = 9) + 1, X, lambda = 0){
   hess <- matrix(numeric(length = length(w)^2), nrow = length(w))
   for(i in 1:length(X[,1])){
     x_i <- as.vector(X[i,])
     X_i <- as.matrix(X[i,] %*% t(X[i,]))
     hess = hess - as.numeric(sigmoid(x_i %*% w) * (1-sigmoid(x_i %*% w))) * X_i
   }
-  return(as.matrix(hess))
+  return(as.matrix(hess) - length(w) * lambda * diag(length(w)))
 }
 
 #Newton-Raphson algorithm to approximate root of gradient of (3) wrt w (page 1303)
-NR_algorithm <- function(w_init, mu, X, gradient, hessian, eta = 0.2, tol = .Machine$double.eps, maxiter = 10^3){
+NR_algorithm <- function(w_init, mu, X, gradient, hessian, lambda = 0, eta = 0.2, tol = .Machine$double.eps, maxiter = 10^3){
   w <- w_init
-  w_new <- w - eta * solve(hessian(w, X)) %*% gradient(w, mu, X)
+  w_new <- w - eta * solve(hessian(w, X, lambda)) %*% gradient(w, mu, X, lambda)
   iter <- 1
   while(sqrt(sum((w_new-w)^2)) > tol & iter <= maxiter){
     w <- w_new
-    w_new <- w - eta * solve(hessian(w, X)) %*% gradient(w, mu, X)
+    w_new <- w - eta * solve(hessian(w, X, lambda)) %*% gradient(w, mu, X, lambda)
     iter <- iter + 1
   }
-  return(list(root = as.vector(w_new), gradient_value = gradient(w_new, mu, X), converged = iter <= maxiter, iterations = iter))
+  return(list(root = as.vector(w_new), gradient_value = gradient(w_new, mu, X, lambda), converged = iter <= maxiter, iterations = iter))
 }
