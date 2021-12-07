@@ -42,7 +42,7 @@ test_err <- misclas_err(as.numeric(sigmoid(X_val %*% w_new) > 0.5), data_val$Dia
 tol <- 10^-6
 max_iter <- 100
 iter <- 1
-validation_monitor <- TRUE
+validation_monitor <- FALSE
 
 #EM-algorithm loop
 print("Starting EM-algorithm to fit Raykar model...")
