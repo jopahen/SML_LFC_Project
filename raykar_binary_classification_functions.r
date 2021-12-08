@@ -36,7 +36,7 @@ gradient <- function(w = seq(0,1,1/8), mu, X, lambda = 0){
     x_i <- as.vector(X[i,])
     grad = grad + as.numeric(mu[i] - sigmoid(x_i %*% w)) * x_i
   }
-  return(grad - length(w) * lambda * w)
+  return(grad - length(mu) * lambda * w)
 }
 
 #hessian of objective (3) wrt w (page 1303)
@@ -47,7 +47,7 @@ hessian <- function(w = numeric(length = 9) + 1, X, lambda = 0){
     X_i <- as.matrix(X[i,] %*% t(X[i,]))
     hess = hess - as.numeric(sigmoid(x_i %*% w) * (1-sigmoid(x_i %*% w))) * X_i
   }
-  return(as.matrix(hess) - length(w) * lambda * diag(length(w)))
+  return(as.matrix(hess) - length(X[,1]) * lambda * diag(length(w)))
 }
 
 #Newton-Raphson algorithm to approximate root of gradient of (3) wrt w (page 1303)
