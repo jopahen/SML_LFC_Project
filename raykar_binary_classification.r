@@ -9,14 +9,14 @@ print("Logistic Regressions fitted! Fitted models in model_ground_truth and mode
 print("======================")
 
 #load data, we work with R = 3 simulated erroneous annotators
-data <- read.csv("Datasets/BreastCancerWisconsinAnnotated03.csv")[,-1]
+data <- read.csv("Datasets/BreastCancerWisconsinAnnotated07normalized.csv")[,-1]
 data_val <- data[-inds,]
 data <- data[inds,]
 N <- length(data$Diagnosis)
 R <- 3
 
 #regularization (lambda >= 0, = 0 implies no regularization)
-lambda <- 0.5
+lambda <- 10^-2
 
 #get matrix of annotators (Ann) & predictors (X)
 Ann <- as.matrix(t(cbind(data$Diagnosis1,data$Diagnosis2,data$Diagnosis3)))

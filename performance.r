@@ -119,7 +119,7 @@ for(i in 1:length(t)){
   speci[i] <- specificity(classifier(test_fitted, thresh = t[i]), ground_truth_test)
 }
 par(pty = "s")
-plot(1-speci, sensi, col = 'red', pch = 4, asp = 1, main = "ROC curve for Raykar classifier (blue) & \n Majority classifier (red) on test data",
+plot(1-speci, sensi, col = 'red', pch = 4, asp = 1, main = "ROC curve for Raykar classifier (blue) & \n Majority classifier (red) on validation data",
      xlab = "FPR = 1 - Specificity", ylab = "Sensitivity")
 lines(1-speci, sensi, col = 'red', lty = 3)
 AUCs[6] <- auc(1-speci, sensi)
@@ -152,7 +152,7 @@ print(cmat)
 
 #plot test-error decay during training
 plot(raykar_out$test_err, col = 'orange', pch = 20, xlab = "EM-iterations", ylab = "avg. misclas. error",
-     main = "Misclassification error decay \n (during training on test set)")
+     main = "Misclassification error decay \n (during training on validation set)")
 lines(raykar_out$test_err, col = 'orange', lty = 3)
 
 options(warn = 0)
